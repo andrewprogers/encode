@@ -1,6 +1,10 @@
 import ReactDOM from 'react-dom';
 import React from 'react';
 
+// required for react-bootstrap
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+
 class App extends React.Component {
     render() {
         return(<h1>Smoke test!</h1>)

@@ -2,7 +2,7 @@
   "name": "encode-demo",
   "version": "1.0.0",
   "description": "",
-  "private": "true",
+  "private": true,
   "scripts": {
     "build": "webpack",
     "publish": "bash scripts/publish.sh",
@@ -17,13 +17,17 @@
     "babel-loader": "^8.0.6",
     "clean-webpack-plugin": "^3.0.0",
     "copy-webpack-plugin": "^5.0.0",
+    "css-loader": "^3.2.1",
     "html-webpack-plugin": "^3.2.0",
     "webpack": "^4.29.3",
     "webpack-cli": "^3.1.0",
     "webpack-dev-server": "^3.1.5"
   },
   "dependencies": {
+    "bootstrap": "^4.4.1",
     "react": "^16.12.0",
-    "react-dom": "^16.12.0"
+    "react-bootstrap": "^1.0.0-beta.16",
+    "react-dom": "^16.12.0",
+    "style-loader": "^1.0.1"
   }
 }
