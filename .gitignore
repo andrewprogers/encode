@@ -1,4 +1,3 @@
 node_modules
 src/wasm/target
-dist/*.js
-dist/*.wasm
+dist
