@@ -1,13 +1,11 @@
-#! /usr/bin/env bash
+#! /usr/bin/env zsh
 
-rm -f dist/*.html
-rm -f dist/*.wasm
-rm -f dist/*.js
+zsh scripts/clean_dist.sh
 
-webpack
+webpack --mode production
+
 cd dist
 touch .nojekyll
-
 git add .
 git commit -m 'publish demo site' &&
 git push -u origin master --force

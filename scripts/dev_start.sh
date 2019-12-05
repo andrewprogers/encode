@@ -10,9 +10,9 @@ watch_rust() {
     cargo watch -s 'cargo check && wasm-pack build --out-dir ../wasm_pkg'
 }
 
-rm -f dist/*.html
-rm -f dist/*.wasm
-rm -f dist/*.js
-webpack
+zsh scripts/clean_dist.sh
+
+webpack --mode development
+
 watch_rust &
 webpack-dev-server
