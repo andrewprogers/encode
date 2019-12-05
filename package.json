@@ -1,0 +1,19 @@
+{
+  "name": "encode-demo",
+  "version": "1.0.0",
+  "description": "",
+  "private": "true",
+  "scripts": {
+    "build": "webpack",
+    "start": "bash dev_start.sh"
+  },
+  "author": "Andrew Rogers",
+  "license": "ISC",
+  "devDependencies": {
+    "copy-webpack-plugin": "^5.0.0",
+    "encode-demo-wasm": "file:./src/wasm_pkg",
+    "webpack": "^4.29.3",
+    "webpack-cli": "^3.1.0",
+    "webpack-dev-server": "^3.1.5"
+  }
+}
