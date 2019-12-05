@@ -1,5 +1,9 @@
 #! /usr/bin/env bash
 
+rm -f dist/*.html
+rm -f dist/*.wasm
+rm -f dist/*.js
+
 webpack
 cd dist
 touch .nojekyll
