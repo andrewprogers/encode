@@ -1,4 +1,4 @@
-const CopyWebpackPlugin = require("copy-webpack-plugin");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 const path = require('path');
 
 module.exports = {
@@ -12,5 +12,11 @@ module.exports = {
     contentBase: path.join(__dirname, 'dist'),
     compress: true,
     port: 8080
-  }
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      title: 'Custom template',
+      template: 'src/index.html'
+    })
+  ]
 };

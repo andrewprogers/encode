@@ -5,13 +5,15 @@
   "private": "true",
   "scripts": {
     "build": "webpack",
-    "start": "bash dev_start.sh"
+    "publish" : "bash scripts/publish.sh",
+    "start": "bash scripts/dev_start.sh"
   },
   "author": "Andrew Rogers",
   "license": "ISC",
   "devDependencies": {
+    "clean-webpack-plugin": "^3.0.0",
     "copy-webpack-plugin": "^5.0.0",
-    "encode-demo-wasm": "file:./src/wasm_pkg",
+    "html-webpack-plugin": "^3.2.0",
     "webpack": "^4.29.3",
     "webpack-cli": "^3.1.0",
     "webpack-dev-server": "^3.1.5"

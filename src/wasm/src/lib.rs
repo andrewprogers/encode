@@ -17,3 +17,4 @@ extern {
 pub fn greet(name: String) {
     alert(&format!("Hello there, {}!", name));
 }
+
