@@ -10,7 +10,7 @@ const InputBox = ({id, value, onChange}) => {
         <textarea 
             className="form-control z-depth-1" 
             id={id}
-            rows="3" 
+            rows="5" 
             value={value}
             onChange={changeHandler}
             placeholder="Write something here..."></textarea>
