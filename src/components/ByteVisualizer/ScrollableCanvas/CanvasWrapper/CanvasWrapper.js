@@ -41,13 +41,13 @@ class CanvasWrapper extends React.Component {
 
         
         this.canvasRef.current.addEventListener('mousemove', e => {
-            this.props.setMousePosition(this.getMouseCoordinate(e))
+            this.props.onMouseMove(this.getMouseCoordinate(e))
         })
         this.canvasRef.current.addEventListener('mouseover', e => {
-            this.props.setMousePosition(this.getMouseCoordinate(e))
+            this.props.onMouseMove(this.getMouseCoordinate(e))
         })
         this.canvasRef.current.addEventListener('mouseout', e => {
-            this.props.setMousePosition(null)
+            this.props.onMouseMove(null)
         })
     }
 
@@ -61,11 +61,8 @@ class CanvasWrapper extends React.Component {
             <canvas 
                 ref={this.canvasRef} 
                 style={{
-                    position: 'relative',
-                    top: `${this.props.canvasScroll}px`,
                     width: `${this.props.width}px`,
                     height: `${this.props.height}px`,
-                    borderWidth: `${this.props.borderWidth}px`
                 }}
             />
         )

@@ -1,6 +1,6 @@
 import React from 'react';
 import './ByteVisualizer.css';
-import CanvasWrapper from './CanvasWrapper/CanvasWrapper';
+import ScrollableCanvas from './ScrollableCanvas/ScrollableCanvas'
 
 class ByteVisualizer extends React.Component {
     constructor(props) {
@@ -14,16 +14,11 @@ class ByteVisualizer extends React.Component {
 
         this.state = {
             width: 0,
-            canvasScroll: 0,
             mouseOverByte: null
         }
         this.divRef = React.createRef();
-        this.scrollerRef = React.createRef();
-        this.setScrollTimeout = null;
         this.renderCanvas = this.renderCanvas.bind(this);
         this.setMousePosition = this.setMousePosition.bind(this);
-
-        
     }
 
     bytesPerRow(w) { 
@@ -49,27 +44,15 @@ class ByteVisualizer extends React.Component {
         }
     }
 
-    setScrollDebounced(scroll) {
-        this.nextScroll = scroll;
-        if (this.setScrollTimeout == null) {
-            this.setScrollTimeout = window.setTimeout(() => {
-                this.setScrollTimeout = null;
-                this.setState({ canvasScroll: this.nextScroll })
-            }, 50)
-        }
-    }
-
     componentDidMount() {
         this.setWidth();
         this.resizeListener = window.addEventListener('resize', () => {
             this.setWidth();
         });
-        this.scrollListener = this.scrollerRef.current.addEventListener('scroll', (e) => this.setScrollDebounced(e.target.scrollTop) )
     }
 
     componentWillUnmount() {
         window.removeEventListener('resize', this.resizeListener);
-        this.scrollerRef.current.removeEventListener('scroll', this.scrollListener);
     }
 
     byteToCoordinate(byte) {
@@ -78,12 +61,12 @@ class ByteVisualizer extends React.Component {
         let col = byte - (row * bytesPerRow);
         return {
             x: col * this.byteWidth(),
-            y: row * this.props.bitHeight - this.state.canvasScroll
+            y: row * this.props.bitHeight
         }
     }
 
     coordinateToByte({x, y}) {
-        let rows = Math.floor((y + this.state.canvasScroll) / this.props.bitHeight);
+        let rows = Math.floor(y / this.props.bitHeight);
         let cols = Math.floor(x / this.byteWidth());
         return cols + rows * this.bytesPerRow();
     }
@@ -101,8 +84,9 @@ class ByteVisualizer extends React.Component {
         }
     }
 
-    renderByte(ctx, byte, style) {
+    renderByte(ctx, yOffset, byte, style) {
         let point = this.byteToCoordinate(byte);
+        point.y -= yOffset;
         let xOffset = 0;
 
         for(var bit = 8; bit > 0; bit--) {
@@ -117,41 +101,43 @@ class ByteVisualizer extends React.Component {
         }
     }
 
-    getVisibleByteRange() {
-        let start = this.coordinateToByte({ x: 0, y: 0 });
+    getVisibleByteRange(yOffset) {
+        let start = this.coordinateToByte({ x: 0, y: yOffset });
         let end = this.props.bytes.length;
         if (this.props.maxHeight != null) {
-            let y = this.props.maxHeight + this.props.bitHeight;
+            let y = yOffset + this.props.maxHeight + this.props.bitHeight;
             end = this.coordinateToByte({ x: 0, y });
         }
         return { start, end }
     }
 
-    renderBytes(ctx) {
-        let window = this.getVisibleByteRange();
+    renderBytes(ctx, yOffset) {
+        let window = this.getVisibleByteRange(yOffset);
 
         for(var byte = window.start; byte < window.end; byte++) {
-            this.renderByte(ctx, byte);
+            this.renderByte(ctx, yOffset, byte);
         }
     }
 
-    renderHighlight(ctx) {
+    renderHighlight(ctx, yOffset) {
         let byte = this.state.mouseOverByte
         let point = this.byteToCoordinate(byte);
+        point.y -= yOffset;
+
         if (byte < this.props.bytes.length) {
             ctx.clearRect(point.x, point.y, this.byteWidth(), this.props.bitHeight)
-            this.renderByte(ctx, byte, this.highlightStyle)
+            this.renderByte(ctx, yOffset, byte, this.highlightStyle)
         }
     }
 
 
-    renderCanvas(ctx) {
+    renderCanvas(ctx, yOffset) {
         let start = Date.now()
         ctx.fillStyle = '#000';
 
-        this.renderBytes(ctx);
+        this.renderBytes(ctx, yOffset);
         if (this.state.mouseOverByte != null) {
-            this.renderHighlight(ctx)
+            this.renderHighlight(ctx, yOffset);
         }
         let elapsed = Date.now() - start;
         console.log(`Rendered in ${elapsed}ms`)
@@ -167,26 +153,23 @@ class ByteVisualizer extends React.Component {
     render() {
         let canvas = null;
         if (this.state.width !== 0) {
-            canvas = <CanvasWrapper 
-                canvasScroll={this.state.canvasScroll}
+            canvas = <ScrollableCanvas
                 width={this.state.width}
-                height={this.props.maxHeight} 
-                draw={this.renderCanvas}
-                borderWidth={this.props.borderWidth}
-                setMousePosition={this.setMousePosition}
-                />
+                windowHeight={this.props.maxHeight}
+                scrollHeight={this.getHeight()}
+                drawWindow={this.renderCanvas}
+                onMouseMove={this.setMousePosition}
+            />
         }
 
+        let borderStyle = { 
+            borderWidth: `${this.props.borderWidth}px`,
+            maxHeight: `${this.props.maxHeight + 2 * this.props.borderWidth}px`
+        };
+
         return <div className="ByteVisualizer" ref={this.divRef}>
-            <div 
-                className="canvasBorder" 
-                style={{ 
-                    borderWidth: `${this.props.borderWidth}px`,
-                    maxHeight: `${this.props.maxHeight + 2 * this.props.borderWidth}px`
-                }}
-                ref={this.scrollerRef}>
+            <div className="canvasBorder" style={borderStyle}>
                 {canvas}
-                <div className="scrollSpacer" style={{ minHeight: `${this.getHeight()}px` }}></div>
             </div>
         </div>
     }

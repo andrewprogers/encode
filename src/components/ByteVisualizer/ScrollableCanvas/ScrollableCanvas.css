@@ -1,0 +1,14 @@
+.ScrollableCanvas {
+    position: relative;
+    overflow-y: scroll;
+}
+
+.ScrollableCanvas .scrollSpacer {
+    position: absolute;
+    top: 0px;
+    width: 1px;
+}
+
+.ScrollableCanvas .canvasWindow {
+    position: relative;
+}
