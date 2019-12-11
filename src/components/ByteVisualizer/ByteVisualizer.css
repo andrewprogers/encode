@@ -1,0 +1,23 @@
+.ByteVisualizer {
+    border: none;
+    line-height: 0;
+    /* background-color: #AAA; */
+
+    text-align: center;
+}
+
+.ByteVisualizer .canvasBorder {
+    position: relative;
+    display: inline-block;
+
+    border-style: solid;
+    border-color: #555;
+
+    overflow-y: scroll;
+}
+
+.scrollSpacer {
+    position: absolute;
+    top: 0px;
+    width: 1px;
+}
