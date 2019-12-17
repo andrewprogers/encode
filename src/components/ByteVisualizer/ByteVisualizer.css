@@ -1,8 +1,10 @@
 .ByteVisualizer {
     border: none;
-    line-height: 0;
-    /* background-color: #AAA; */
+    text-align: left;
+}
 
+.ByteVisualizer .centerCanvas {
+    line-height: 0;
     text-align: center;
 }
 
@@ -11,4 +13,7 @@
 
     border-style: solid;
     border-color: #555;
+}
+
+.ByteVisualizer .byteCount {
 }

@@ -34,7 +34,10 @@ class ScrollableCanvas extends React.Component {
     }
 
     handleMouseMove(canvasCoordinates) {
-        canvasCoordinates.y += this.state.canvasScroll;
+        if (canvasCoordinates != null) {
+            canvasCoordinates.y += this.state.canvasScroll;
+        }
+        
         this.props.onMouseMove(canvasCoordinates)
     }
 

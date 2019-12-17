@@ -5,8 +5,6 @@ import {Container, Row, Col } from 'react-bootstrap';
 import InputBox from './components/InputBox.jsx';
 import ByteVisualizer from './components/ByteVisualizer/ByteVisualizer';
 
-
-
 class App extends React.Component {
     constructor(props) {
         super(props);
@@ -25,6 +23,9 @@ class App extends React.Component {
     }
 
     render() {
+        let inputBytes = this.encoder.encode(this.state.input);
+        this.props.wasm.test();
+        let compressedBytes = this.props.wasm.HuffmanEncoder.encode_bytes(inputBytes);
         return(
             <Container>
                 <Row>
@@ -32,10 +33,18 @@ class App extends React.Component {
                     <Col xs={12} md={8}>
                         <InputBox value={this.state.input} onChange={this.updateInput}/>
                         <ByteVisualizer
-                            bytes={this.encoder.encode(this.state.input)}
+                            bytes={inputBytes}
                             bitWidth={5}
                             bitHeight={20}
-                            borderWidth={1}
+                            borderWidth={2}
+                            maxHeight={200}
+                        />
+                        <br />
+                        <ByteVisualizer
+                            bytes={compressedBytes}
+                            bitWidth={5}
+                            bitHeight={20}
+                            borderWidth={2}
                             maxHeight={200}
                         />
                     </Col>
