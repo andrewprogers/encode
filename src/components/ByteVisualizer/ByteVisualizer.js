@@ -132,15 +132,12 @@ class ByteVisualizer extends React.Component {
 
 
     renderCanvas(ctx, yOffset) {
-        let start = Date.now()
         ctx.fillStyle = '#000';
 
         this.renderBytes(ctx, yOffset);
         if (this.state.mouseOverByte != null) {
             this.renderHighlight(ctx, yOffset);
         }
-        let elapsed = Date.now() - start;
-        console.log(`Rendered in ${elapsed}ms`)
     }
 
     getHeight() {
@@ -168,9 +165,12 @@ class ByteVisualizer extends React.Component {
         };
 
         return <div className="ByteVisualizer" ref={this.divRef}>
-            <div className="canvasBorder" style={borderStyle}>
-                {canvas}
+            <div className='centerCanvas'>
+                <div className="canvasBorder" style={borderStyle}>
+                    {canvas}
+                </div>
             </div>
+            <p className='byteCount'><b>Total bytes:</b> {this.props.bytes.length}</p>
         </div>
     }
 }

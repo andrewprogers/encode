@@ -10,5 +10,5 @@ import('./wasm_pkg/encode_demo_wasm')
 .then(wasm => {
     let root = document.getElementById('react-root');
 
-    ReactDOM.render(<App />, root);
+    ReactDOM.render(<App wasm={wasm} />, root);
 })
